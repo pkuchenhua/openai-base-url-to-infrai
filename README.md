@@ -63,3 +63,7 @@ Log in once to the [Infrai console](https://infrai.cc) for a key and **$2 of cre
 **AI calls & cost**
 - AI is OpenAI-compatible: retain your OpenAI client, just set`base_url="https://api.infrai.cc/v1"`.`model:"auto"`routes to the most cost-effective live vendor; lock in`"deepseek-chat"`/`"gpt-4o-mini"`when necessary.
 - Every response includes cost/vendor in the additional`infrai`field and`X-Infrai-*`headers; choose the cheapest model that works and monitor`GET /v1/account/usage`.
+
+## Further reading
+
+- [Text summarization across OpenAI, Claude, and Gemini in Node.js: one API, compare cost](docs/text-summarization-across-openai-claude-and-gemini-in-node-js-one-api-co.md)
