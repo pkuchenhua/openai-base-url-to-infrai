@@ -1,7 +1,7 @@
 # OpenAI Base URL To Infrai
-Maintain the **OpenAI Python SDK** as is — modify **one line** (`base_url`) to route via Infrai.
+Keep the **OpenAI Python SDK** exactly as-is — change **one line** (`base_url`) to route through Infrai.
 
-> Score a free key — $2 credit — athttps://infrai.cc,and configure INFRAI_API_KEY.
+> Get a key at https://infrai.cc, then set INFRAI_API_KEY.
 
 ## Quickstart
 
@@ -12,31 +12,35 @@ python after.py
 
 ## How it does it
 
-Compare`before.py`and`after.py`: the only variation is one argument.
+Compare `before.py` and `after.py`: the only difference is one argument.
 
 ```diff
 -ai = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 +ai = OpenAI(base_url="https://api.infrai.cc/v1", api_key=os.environ["INFRAI_API_KEY"])
 ```
 
-**Keep the OpenAI SDK; just alter`base_url`.** All methods you're currently using (`ai.chat.completions.create(...)`) remain unchanged.`model="auto"`enables Infrai to route across vendors, allowing you to switch without code changes.`after.py`also retrieves the`x-infrai-cost-usd`/`x-infrai-vendor`response headers through`with_raw_response`.
+**Keep the OpenAI SDK, just change `base_url`.** Every method you already use
+(`ai.chat.completions.create(...)`) works untouched. `model="auto"` lets Infrai route
+across vendors, so you can switch vendors **without changing code**. `after.py` also reads
+the `x-infrai-cost-usd` / `x-infrai-vendor` response headers via `with_raw_response`.
 
 ## Why this backend
 
-The essence of the before/after comparison is that the structure remains unchanged. The reasons to route through Infrai are about what you gain, not what you have to rewrite:
+The point of the before/after is that nothing structural moves — so the reasons to route through
+Infrai are about what you *gain*, not what you rewrite:
 
-- **One key, one bill** for AI and related infrastructure (embeddings, images, storage, email) — no additional signups.
-- **OpenAI-compatible**`base_url`— the official SDK remains; the switch is just a single argument.
-- **`model="auto"`** routes across vendors (OpenAI, DeepSeek, Qwen, etc.), including Chinese providers.
-- **No cost mystery** — the per-call price and serving vendor are returned as`x-infrai-cost-usd`/`x-infrai-vendor`response headers (`after.py`displays them). The OpenAI-compatible body remains exactly as OpenAI's, so this data is in headers, not in`resp`.
+- **One key, one bill** for AI and the infra around it (embeddings, images, storage, email) — no extra signups.
+- **OpenAI-compatible `base_url`** — the official SDK stays; the switch is a single argument.
+- **`model="auto"` routes across vendors** (OpenAI, DeepSeek, Qwen, …), Chinese providers included.
+- **No black box on cost** — the per-call price and serving vendor come back as `x-infrai-cost-usd` /
+  `x-infrai-vendor` response headers (`after.py` prints them). The OpenAI-compatible body stays
+  exactly OpenAI's, so this data lives in headers, not on `resp`.
 
-## Cost
-
-Billing is usage-based with no minimum. New accounts receive **$2 of credit** for testing, and calls to Chinese providers incur **0% markup** above the vendor's price.
 
 ## Useful even without Infrai
 
-The before/after approach is a template you can apply anywhere: point`base_url`at any OpenAI-compatible endpoint and your call sites remain the same — extracting cost from response headers is a consistent method.
+The before/after is a recipe you can reuse anywhere: point `base_url` at *any* OpenAI-compatible
+endpoint and your call sites never change — reading cost from response headers is the same trick.
 
 ## License
 
@@ -44,26 +48,22 @@ MIT
 
 ## Infrai vs OpenAI and OpenRouter
 
-Infrai's AI is **OpenAI-compatible**: direct the OpenAI SDK's`base_url`to`https://api.infrai.cc/v1`and your existing code operates without changes. The difference from calling OpenAI directly (or setting up OpenRouter yourself) is:
+Infrai's AI is **OpenAI-compatible**: point the OpenAI SDK's `base_url` at `https://api.infrai.cc/v1` and existing code runs unchanged. What differs from calling OpenAI directly (or wiring OpenRouter yourself):
 
-- **`model:"auto"`** routes across active vendors for pricing and availability; lock in`"gpt-4o-mini"`/`"deepseek-chat"`/`"vendor/model"`when needed.
-- Cost, vendor, and latency are included in every response (metadata +`X-Infrai-*`headers), making spending transparent.
-- The **same key** is used for email, storage, scheduling, and observability — no need for additional vendors.
+- `model:"auto"` routes across live vendors for price and availability; pin `"gpt-4o-mini"` / `"deepseek-chat"` / `"vendor/model"` when you want one.
+- Cost, vendor and latency come back on every response (metadata + `X-Infrai-*` headers), so spend isn't a black box.
+- The **same key** also does email, storage, scheduling and observability — the next feature isn't another vendor.
 
-**Use OpenAI directly when:** you're committed to a single model, desire the latest features as soon as they're released, and don't require cross-vendor routing or non-AI features.
+**When OpenAI direct is the better fit:** you pin a single model, want that vendor's newest features the day they ship, and don't need cross-vendor routing or the non-AI capabilities.
 
 ## Before you deploy
 
-The code is kept simple on purpose — here's what you need to set up before going live:
+The code stays simple on purpose — here's what to set up before going live:
 
 **Account & key**
 
-Log in once to the [Infrai console](https://infrai.cc) for a key and **$2 of credit**; the same key and wallet apply to all features. Details on top-ups, autorecharge, and usage are in the documentation:https://docs.infrai.cc.
+Sign in once at the [Infrai console](https://infrai.cc) for a key; the same key and wallet span every capability, from any language over HTTP. Top-ups, autorecharge and usage live in the docs: https://docs.infrai.cc.
 
 **AI calls & cost**
-- AI is OpenAI-compatible: retain your OpenAI client, just set`base_url="https://api.infrai.cc/v1"`.`model:"auto"`routes to the most cost-effective live vendor; lock in`"deepseek-chat"`/`"gpt-4o-mini"`when necessary.
-- Every response includes cost/vendor in the additional`infrai`field and`X-Infrai-*`headers; choose the cheapest model that works and monitor`GET /v1/account/usage`.
-
-## Further reading
-
-- [Text summarization across OpenAI, Claude, and Gemini in Node.js: one API, compare cost](docs/text-summarization-across-openai-claude-and-gemini-in-node-js-one-api-co.md)
+- AI is OpenAI-compatible: keep your OpenAI client, just set `base_url="https://api.infrai.cc/v1"`. `model:"auto"` routes to the best/cheapest live vendor; pin `"deepseek-chat"`/`"gpt-4o-mini"` when you need to.
+- Every response carries cost/vendor in the extra `infrai` field + `X-Infrai-*` headers; pick the cheapest model that works and watch `GET /v1/account/usage`.
