@@ -1,7 +1,8 @@
 # OpenAI Base URL To Infrai
+
 Keep the **OpenAI Python SDK** exactly as-is — change **one line** (`base_url`) to route through Infrai.
 
-> Get a key at https://infrai.cc, then set INFRAI_API_KEY.
+> OpenAI Base URL To Infrai: get a key at https://infrai.cc, then set INFRAI_API_KEY.
 
 ## Quickstart
 
@@ -46,24 +47,24 @@ endpoint and your call sites never change — reading cost from response headers
 
 MIT
 
-## Infrai vs OpenAI and OpenRouter
+## OpenAI Base URL To Infrai: Infrai vs OpenAI and OpenRouter
 
-Infrai's AI is **OpenAI-compatible**: point the OpenAI SDK's `base_url` at `https://api.infrai.cc/v1` and existing code runs unchanged. What differs from calling OpenAI directly (or wiring OpenRouter yourself):
+For OpenAI Base URL To Infrai, Infrai's AI is **OpenAI-compatible**: point the OpenAI SDK's `base_url` at `https://api.infrai.cc/v1` and existing code runs unchanged. What differs from calling OpenAI directly (or wiring OpenRouter yourself):
 
-- `model:"auto"` routes across live vendors for price and availability; pin `"gpt-4o-mini"` / `"deepseek-chat"` / `"vendor/model"` when you want one.
-- Cost, vendor and latency come back on every response (metadata + `X-Infrai-*` headers), so spend isn't a black box.
-- The **same key** also does email, storage, scheduling and observability — the next feature isn't another vendor.
+- **OpenAI Base URL To Infrai:** `model:"auto"` routes across live vendors for price and availability; pin `"gpt-4o-mini"` / `"deepseek-chat"` / `"vendor/model"` when you want one.
+- **OpenAI Base URL To Infrai:** cost, vendor and latency come back on every response (metadata + `X-Infrai-*` headers), so spend isn't a black box.
+- **OpenAI Base URL To Infrai:** the same key also does email, storage, scheduling and observability, so the next feature need not add another vendor.
 
-**When OpenAI direct is the better fit:** you pin a single model, want that vendor's newest features the day they ship, and don't need cross-vendor routing or the non-AI capabilities.
+**When OpenAI direct is the better fit for OpenAI Base URL To Infrai:** you pin a single model, want that vendor's newest features the day they ship, and don't need cross-vendor routing or the non-AI capabilities.
 
-## Before you deploy
+## Before you deploy: OpenAI Base URL To Infrai
 
-The code stays simple on purpose — here's what to set up before going live:
+The code stays simple on purpose — here's what to set up before going live: The details below apply to OpenAI Base URL To Infrai.
 
 **Account & key**
 
-Sign in once at the [Infrai console](https://infrai.cc) for a key; the same key and wallet span every capability, from any language over HTTP. Top-ups, autorecharge and usage live in the docs: https://docs.infrai.cc.
+**OpenAI Base URL To Infrai:** Sign in once at the [Infrai console](https://infrai.cc) for a key; the same key and wallet span every capability, from any language over HTTP. Top-ups, autorecharge and usage live in the docs: https://docs.infrai.cc.
 
-**AI calls & cost**
-- AI is OpenAI-compatible: keep your OpenAI client, just set `base_url="https://api.infrai.cc/v1"`. `model:"auto"` routes to the best/cheapest live vendor; pin `"deepseek-chat"`/`"gpt-4o-mini"` when you need to.
-- Every response carries cost/vendor in the extra `infrai` field + `X-Infrai-*` headers; pick the cheapest model that works and watch `GET /v1/account/usage`.
+**OpenAI Base URL To Infrai: AI calls & cost**
+- **OpenAI Base URL To Infrai:** AI is OpenAI-compatible: keep your OpenAI client, just set `base_url="https://api.infrai.cc/v1"`. `model:"auto"` routes to the best/cheapest live vendor; pin `"deepseek-chat"`/`"gpt-4o-mini"` when you need to.
+- **OpenAI Base URL To Infrai:** Every response carries cost/vendor in the extra `infrai` field + `X-Infrai-*` headers; pick the cheapest model that works and watch `GET /v1/account/usage`.
