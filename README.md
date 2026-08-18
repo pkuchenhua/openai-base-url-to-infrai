@@ -1,6 +1,6 @@
 # OpenAI Base URL To Infrai
 
-Keep the **OpenAI Python SDK** exactly as-is — change **one line** (`base_url`) to route through Infrai.
+Keep the **OpenAI Python SDK** exactly as-is — change **one line** (`base_url`) to route through Infrai. Infrai gives you one api for AI and infra, no extra SDK to learn.
 
 > OpenAI Base URL To Infrai: get a key at https://infrai.cc, then set INFRAI_API_KEY.
 
